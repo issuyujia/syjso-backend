@@ -21,6 +21,7 @@ import com.syj.syjso.model.vo.UserVO;
 import com.syj.syjso.service.PostService;
 import com.syj.syjso.service.UserService;
 import com.syj.syjso.utils.SqlUtils;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import lombok.extern.slf4j.Slf4j;
 import cn.hutool.core.collection.CollUtil;
 import org.apache.commons.lang3.ObjectUtils;
@@ -49,8 +51,7 @@ import org.springframework.stereotype.Service;
 /**
  * 帖子服务实现
  *
- * @author <a href="https://github.com/lisyj">程序员鱼皮</a>
- * @from <a href="https://syj.icu">编程导航知识星球</a>
+
  */
 @Service
 @Slf4j
@@ -303,6 +304,22 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         }).collect(Collectors.toList());
         postVOPage.setRecords(postVOList);
         return postVOPage;
+    }
+
+    /**
+     * 分页获取帖子列表
+     *
+     * @param postQueryRequest
+     * @param request
+     * @return
+     */
+    @Override
+    public Page<PostVO> listPostVOByPage(PostQueryRequest postQueryRequest, HttpServletRequest request) {
+        int current = postQueryRequest.getCurrent();
+        int size = postQueryRequest.getPageSize();
+        Page<Post> postPage = this.page(new Page<>(current, size),
+                this.getQueryWrapper(postQueryRequest));
+        return this.getPostVOPage(postPage, request);
     }
 
 }

@@ -33,8 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 帖子接口
  *
- * @author <a href="https://github.com/lisyj">程序员鱼皮</a>
- * @from <a href="https://syj.icu">编程导航知识星球</a>
+
  */
 @RestController
 @RequestMapping("/post")
@@ -179,9 +178,8 @@ public class PostController {
         long size = postQueryRequest.getPageSize();
         // 限制爬虫
         ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
-        Page<Post> postPage = postService.page(new Page<>(current, size),
-                postService.getQueryWrapper(postQueryRequest));
-        return ResultUtils.success(postService.getPostVOPage(postPage, request));
+        Page<PostVO> postVOPage = postService.listPostVOByPage(postQueryRequest,request);
+        return ResultUtils.success(postVOPage);
     }
 
     /**

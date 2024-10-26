@@ -1,6 +1,7 @@
 package com.syj.syjso.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.syj.syjso.model.dto.user.UserQueryRequest;
 import com.syj.syjso.model.entity.User;
@@ -13,8 +14,7 @@ import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 /**
  * 用户服务
  *
- * @author <a href="https://github.com/lisyj">程序员鱼皮</a>
- * @from <a href="https://syj.icu">编程导航知识星球</a>
+
  */
 public interface UserService extends IService<User> {
 
@@ -118,4 +118,6 @@ public interface UserService extends IService<User> {
      */
     QueryWrapper<User> getQueryWrapper(UserQueryRequest userQueryRequest);
 
+
+    Page<UserVO> listUserVOByPage(UserQueryRequest userQueryRequest);
 }

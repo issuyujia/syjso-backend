@@ -4,6 +4,7 @@ import static com.syj.syjso.constant.UserConstant.USER_LOGIN_STATE;
 
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.syj.syjso.common.ErrorCode;
 import com.syj.syjso.constant.CommonConstant;
@@ -16,10 +17,12 @@ import com.syj.syjso.model.vo.LoginUserVO;
 import com.syj.syjso.model.vo.UserVO;
 import com.syj.syjso.service.UserService;
 import com.syj.syjso.utils.SqlUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
+
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -30,8 +33,7 @@ import org.springframework.util.DigestUtils;
 /**
  * 用户服务实现
  *
- * @author <a href="https://github.com/lisyj">程序员鱼皮</a>
- * @from <a href="https://syj.icu">编程导航知识星球</a>
+
  */
 @Service
 @Slf4j
@@ -268,5 +270,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         queryWrapper.orderBy(SqlUtils.validSortField(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_ASC),
                 sortField);
         return queryWrapper;
+    }
+
+    /**
+     * 分页获取用户信息
+     * @param userQueryRequest
+     * @return
+     */
+    @Override
+    public Page<UserVO> listUserVOByPage(UserQueryRequest userQueryRequest) {
+        int current = userQueryRequest.getCurrent();
+        int pageSize = userQueryRequest.getPageSize();
+        Page<User> userPage = this.page(new Page<>(current, pageSize), this.getQueryWrapper(userQueryRequest));
+        Page<UserVO> userVOPage = new Page<>(current, pageSize, userPage.getTotal());
+        List<UserVO> userVO = this.getUserVO(userPage.getRecords());
+        userVOPage.setRecords(userVO);
+        return userVOPage;
     }
 }
