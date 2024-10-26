@@ -25,7 +25,7 @@ import java.util.Map;
  */
 // todo 取消注释开启任务
 //如果取消component的注释，他将会在项目第一次启动的时候调用一次该run方法
-@Component
+//@Component
 @Slf4j
 public class FetchInitPostList implements CommandLineRunner {
     @Resource
