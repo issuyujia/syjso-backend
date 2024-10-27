@@ -56,14 +56,14 @@ public class FetchInitPostList implements CommandLineRunner {
         System.out.println("code:" + code);
         JSONObject data = (JSONObject) map.get("data");
         System.out.println("data:" + data);
-        JSONArray records = (JSONArray)data.get("records");
+        JSONArray records = (JSONArray) data.get("records");
         ArrayList<Post> posts = new ArrayList<>();
         for (Object record : records) {
             JSONObject tempRecord = (JSONObject) record;
             Post post = new Post();
             post.setTitle(tempRecord.getStr("title"));
-            post.setContent(tempRecord.getStr("content"));
-            JSONArray tags = (JSONArray)tempRecord.get("tags");
+            post.setContent(tempRecord.getStr("plainTextDescription"));
+            JSONArray tags = (JSONArray) tempRecord.get("tags");
             List<String> tagList = tags.toList(String.class);
             post.setTags(JSONUtil.toJsonStr(tagList));
             post.setUserId(1L);
@@ -72,10 +72,10 @@ public class FetchInitPostList implements CommandLineRunner {
         System.out.println(posts);
         //数据入库
         boolean flag = postService.saveBatch(posts);
-        if(flag){
+        if (flag) {
             System.out.println("数据插入成功");
-            log.info("初始化帖子列表成功，条数为"+posts.size());
-        }else{
+            log.info("初始化帖子列表成功，条数为" + posts.size());
+        } else {
             System.out.println("数据插入失败");
             log.error("初始化帖子列表失败");
         }

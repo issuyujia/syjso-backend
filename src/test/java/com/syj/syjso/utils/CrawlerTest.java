@@ -88,7 +88,7 @@ public class CrawlerTest {
             JSONObject tempRecord = (JSONObject) record;
             Post post = new Post();
             post.setTitle(tempRecord.getStr("title"));
-            post.setContent(tempRecord.getStr("content"));
+            post.setContent(tempRecord.getStr("plainTextDescription"));
             JSONArray tags = (JSONArray) tempRecord.get("tags");
             List<String> tagList = tags.toList(String.class);
             post.setTags(JSONUtil.toJsonStr(tagList));
