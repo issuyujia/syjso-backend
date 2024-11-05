@@ -11,6 +11,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.Map;
 public class PictureDataSource implements DataSource<Picture> {
 
     @Override
-    public Page<Picture> doSearch(String searchText, long pageNum, long pageSize) {
+    public Page<Picture> doSearch(String searchText, long pageNum, long pageSize, HttpServletRequest request) {
         long current = (pageNum - 1) * pageSize;
         String url = String.format("https://cn.bing.com/images/search?q=%s&first=%s", searchText, current);
         Document doc = null;

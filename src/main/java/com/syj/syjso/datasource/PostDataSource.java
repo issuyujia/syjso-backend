@@ -25,16 +25,15 @@ public class PostDataSource implements DataSource<PostVO> {
     private PostService postService;
 
     @Override
-    public Page<PostVO> doSearch(String searchText, long pageNum, long pageSize) {
+    public Page<PostVO> doSearch(String searchText, long pageNum, long pageSize,HttpServletRequest request) {
         PostQueryRequest postQueryRequest = new PostQueryRequest();
         postQueryRequest.setSearchText(searchText);
         postQueryRequest.setCurrent((int) pageNum);
         postQueryRequest.setPageSize((int) pageSize);
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = servletRequestAttributes.getRequest();
-//        Page<Post> postPage = postService.searchFromEs(postQueryRequest);
-        Page<PostVO> postPage = postService.listPostVOByPage(postQueryRequest, request);
-        return postPage;
+//        ServletRequestAttributes servletRequestAttributes =  (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+//        HttpServletRequest request = servletRequestAttributes.getRequest();
+        Page<Post> postPage = postService.searchFromEs(postQueryRequest);
+        return postService.getPostVOPage(postPage, request);
     }
 }
 

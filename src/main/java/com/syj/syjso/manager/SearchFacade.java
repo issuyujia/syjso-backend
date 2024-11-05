@@ -24,7 +24,6 @@ import java.util.concurrent.CompletableFuture;
 
 /**
  * 搜索门面
- *
  */
 @Component
 @Slf4j
@@ -54,19 +53,19 @@ public class SearchFacade {
             CompletableFuture<Page<UserVO>> userTask = CompletableFuture.supplyAsync(() -> {
                 UserQueryRequest userQueryRequest = new UserQueryRequest();
                 userQueryRequest.setUserName(searchText);
-                Page<UserVO> userVOPage = userDataSource.doSearch(searchText, current, pageSize);
+                Page<UserVO> userVOPage = userDataSource.doSearch(searchText, current, pageSize, request);
                 return userVOPage;
             });
 
             CompletableFuture<Page<PostVO>> postTask = CompletableFuture.supplyAsync(() -> {
                 PostQueryRequest postQueryRequest = new PostQueryRequest();
                 postQueryRequest.setSearchText(searchText);
-                Page<PostVO> postVOPage = postDataSource.doSearch(searchText, current, pageSize);
+                Page<PostVO> postVOPage = postDataSource.doSearch(searchText, current, pageSize, request);
                 return postVOPage;
             });
 
             CompletableFuture<Page<Picture>> pictureTask = CompletableFuture.supplyAsync(() -> {
-                Page<Picture> picturePage = pictureDataSource.doSearch(searchText, 1, 10);
+                Page<Picture> picturePage = pictureDataSource.doSearch(searchText, 1, 10, request);
                 return picturePage;
             });
 
@@ -87,7 +86,7 @@ public class SearchFacade {
         } else {
             SearchVO searchVO = new SearchVO();
             DataSource<?> dataSource = dataSourceRegistry.getDataSourceByType(type);
-            Page<?> page = dataSource.doSearch(searchText, current, pageSize);
+            Page<?> page = dataSource.doSearch(searchText, current, pageSize, request);
             searchVO.setDataList(page.getRecords());
             return searchVO;
         }

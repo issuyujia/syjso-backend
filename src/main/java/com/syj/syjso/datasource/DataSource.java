@@ -1,5 +1,7 @@
 package com.syj.syjso.datasource;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import javax.servlet.http.HttpServletRequest;
 /**
  * @author syj
  * @date 2024/10/26 23:43
@@ -18,5 +20,5 @@ public interface DataSource<T> {
      * @param pageSize
      * @return
      */
-    Page<T> doSearch(String searchText, long pageNum, long pageSize);
+    Page<T> doSearch(String searchText, long pageNum, long pageSize, HttpServletRequest request);
 }

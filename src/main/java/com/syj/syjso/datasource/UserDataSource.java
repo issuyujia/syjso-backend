@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 用户服务实现
@@ -21,7 +22,7 @@ public class UserDataSource implements DataSource<UserVO> {
     private UserService userService;
 
     @Override
-    public Page<UserVO> doSearch(String searchText, long pageNum, long pageSize) {
+    public Page<UserVO> doSearch(String searchText, long pageNum, long pageSize, HttpServletRequest request) {
         UserQueryRequest userQueryRequest = new UserQueryRequest();
         userQueryRequest.setUserName(searchText);
         userQueryRequest.setCurrent((int) pageNum);
